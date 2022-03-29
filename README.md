@@ -87,7 +87,7 @@ Example
 syncEngine.register('myName', myContainer)
 ```
 
-3. Creating a transaction
+### Creating a transaction
 
 Transaction is a set of changes applied to a set of states. When you apply changes to the states inside a transaction, you are essentially telling the engine which changes are associated with the same user action, so that undo/redo can use that as a single step to work with.
 
