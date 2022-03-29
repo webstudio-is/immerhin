@@ -37,14 +37,15 @@ createTransaction([container1, container2, ...rest], (value1, value2, ...rest) =
 
 // Setup periodic sync with a fetch, or do this with Websocket
 setInterval(async () => {
-  const entries = syncEngine.sync()
+  const entries = 
+  sync()
   await fetch('/patch', {method: 'POST', payload: JSON.stringify(entries)})
 }, 1000)
 
 // Undo/redo
 
-syncEngine.undo()
-syncEngine.redo()
+undo()
+redo()
 
 ```
 
@@ -84,7 +85,7 @@ We register containers for two reasons:
 Example
 
 ```js
-syncEngine.register('myName', myContainer)
+register('myName', myContainer)
 ```
 
 ### Creating a transaction
@@ -119,7 +120,7 @@ With the return from `sync(),` you can do anything you want, for example, send i
 Example
 
 ```js
-const entries = syncEngine.sync()
+const entries = sync()
 ```
 
 Example entries:
