@@ -1,0 +1,27 @@
+{
+  "name": "sync-engine",
+  "version": "0.1.0",
+  "description": "Send patches to your server, update the UI state, get undo-redo for free",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/webstudio-is/sync-engine.git"
+  },
+  "keywords": [
+    "Immer",
+    "JSON",
+    "Patch",
+    "State",
+    "management",
+    "undo-redo"
+  ],
+  "author": "Oleg Isonen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webstudio-is/sync-engine/issues"
+  },
+  "homepage": "https://github.com/webstudio-is/sync-engine#readme"
+}
