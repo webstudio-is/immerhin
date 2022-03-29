@@ -1,12 +1,12 @@
 # Sync Engine
 The core idea is to use [Immer](https://immerjs.github.io/immer/) as an interface for state mutations and provide a convenient way to group mutations into a single transaction.
-As an endresult we get patches that can be used to syng the app state across the application and to sync the changes to the server. This also gives us a way to automatically undo/redo a transaction.
+As an end-result, we get patches that can be used to sync the app state across the application and to sync the changes to the server. This also gives us a way to undo/redo a transaction automatically.
 
 ## Features
 
 1. Update application state using [patches](https://immerjs.github.io/immer/patches)
-2. Synchonize with the server
-3. Have undo/redo on the client that does both updating the client state and syncing to the server
+2. Synchronize with the server
+3. Get undo/redo on the client that does both updating the client state and syncing to the server
 4. Server agnostic
 5. State management agnostic (mostly)
 
@@ -52,11 +52,11 @@ syncEngine.redo()
 
 ### Containers
 
-Container contains a state value.
+A Container contains a state value.
 
-Container is an interface that implements a `dispatch(value)` method, so that a value can be propagated to all consumers.
-Container exposes it's current value as `container.value`.
-You can use anything to create containers, could be a Redux store, could be an observable or a minimalistic [nano state](https://github.com/kof/react-nano-state)
+A container is an interface that implements a `dispatch(value)` method so that a value can be propagated to all consumers.
+A container exposes its current value as `container.value`.
+You can use anything to create containers, it could be a Redux store, could be an observable or a minimalistic [nano state](https://github.com/kof/react-nano-state)
 
 You can use the same container instance to subscribe to the changes across the entire application.
 
@@ -77,9 +77,9 @@ const Component = () => {
 
 ### Container registration
 
-We register containers for 2 reasons: 
-1. Providing a namespace for each container so that whoever consumes the changes, knows which object to apply the patches to.
-2. To make sure the container was intentionally registered to be synced to the server and be part of undo/redo transactions. You may not want this for every container, since you can use them for ephemeral states too.
+We register containers for two reasons: 
+1. To define a namespace for each container so that whoever consumes the changes knows which object to apply the patches to.
+2. Ensure that the container was intentionally registered to be synced to the server and be part of undo/redo transactions. You may not want this for every container since you can use them for ephemeral states.
 
 Example
 
@@ -89,7 +89,7 @@ syncEngine.register('myName', myContainer)
 
 ### Creating a transaction
 
-Transaction is a set of changes applied to a set of states. When you apply changes to the states inside a transaction, you are essentially telling the engine which changes are associated with the same user action, so that undo/redo can use that as a single step to work with.
+A transaction is a set of changes applied to a set of states. When you apply changes to the states inside a transaction, you are essentially telling the engine which changes are associated with the same user action so that undo/redo can use that as a single step to work with.
 
 A call into `createTransaction()`does all of this:
 
@@ -113,8 +113,8 @@ Calling undo() and redo() functions will essentially apply the right patch for t
 
 ### Sync
 
-Calling sync() function returns you all changes that have been queued up for a sync since the last call.
-With the return from sync you can do anything you want, for example send it to your server.
+The `sync(`) function returns you all changes queued up for a sync since the last call.
+With the return from `sync(),` you can do anything you want, for example, send it to your server.
 
 Example
 
@@ -122,7 +122,7 @@ Example
 const entries = syncEngine.sync()
 ```
 
-Example entires:
+Example entries:
 
 ```json
 [
@@ -172,5 +172,3 @@ Example entires:
     }
 ]
 ```
-
-
