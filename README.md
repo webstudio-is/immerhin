@@ -37,8 +37,7 @@ createTransaction([container1, container2, ...rest], (value1, value2, ...rest) =
 
 // Setup periodic sync with a fetch, or do this with Websocket
 setInterval(async () => {
-  const entries = 
-  sync()
+  const entries = sync()
   await fetch('/patch', {method: 'POST', payload: JSON.stringify(entries)})
 }, 1000)
 
@@ -120,7 +119,11 @@ With the return from `sync(),` you can do anything you want, for example, send i
 Example
 
 ```js
-const entries = sync()
+// Setup periodic sync with a fetch, or do this with Websocket
+setInterval(async () => {
+  const entries = sync()
+  await fetch('/patch', {method: 'POST', payload: JSON.stringify(entries)})
+}, 1000)
 ```
 
 Example entries:
