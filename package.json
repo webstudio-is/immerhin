@@ -1,14 +1,17 @@
 {
-  "name": "sync-engine",
+  "name": "immerhin",
   "version": "0.1.0",
   "description": "Send patches to your server, update the UI state, get undo-redo for free",
-  "main": "lib/index.js",
+  "main": "dist/immerhin.cjs.js",
+  "module": "dist/immerhin.esm.js",
   "scripts": {
-    "test": "jest"
+    "build": "preconstruct build",
+    "dev": "preconstruct dev",
+    "prepublishOnly": "yarn build"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/webstudio-is/sync-engine.git"
+    "url": "git+ssh://git@github.com/webstudio-is/immerhin.git"
   },
   "keywords": [
     "Immer",
@@ -21,7 +24,19 @@
   "author": "Oleg Isonen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/webstudio-is/sync-engine/issues"
+    "url": "https://github.com/webstudio-is/immerhin/issues"
   },
-  "homepage": "https://github.com/webstudio-is/sync-engine#readme"
+  "homepage": "https://github.com/webstudio-is/immerhin#readme",
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.16.7",
+    "@preconstruct/cli": "^2.1.5",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "bson-objectid": "^2.0.3",
+    "immer": "^9.0.12"
+  },
+  "files": [
+    "dist"
+  ]
 }
