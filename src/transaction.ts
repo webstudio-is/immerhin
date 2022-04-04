@@ -1,6 +1,6 @@
 import ObjectId from "bson-objectid";
 import { applyPatches, type Patch } from "immer";
-import { ValueContainer } from "react-nano-state";
+import { type ValueContainer } from "./types";
 
 export type Change = {
   namespace: string;

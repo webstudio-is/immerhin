@@ -1,12 +1,13 @@
 {
   "name": "immerhin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Send patches to your server, update the UI state, get undo-redo for free",
   "main": "dist/immerhin.cjs.js",
   "module": "dist/immerhin.esm.js",
   "scripts": {
     "build": "preconstruct build",
     "dev": "preconstruct dev",
+    "typecheck": "tsc --noEmit",
     "prepublishOnly": "yarn build"
   },
   "repository": {
@@ -37,6 +38,7 @@
     "immer": "^9.0.12"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ]
 }

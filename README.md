@@ -11,11 +11,15 @@ Using Immer's patches we sync the state across the application and to the server
 3. Get undo/redo on the client that does both updating the client state and syncing to the server
 4. Server agnostic
 5. State management agnostic (mostly)
+6. Sync between iframes (not implemented yet)
+7. Sync between tabs (not implemented yet)
+8. Conflict resolution (not implemented yet)
+9. Server handler (not implemented yet)
 
 ## Example
 
 ```js
-import { createTransaction, register, sync, undo, redo } from "sync-engine";
+import store, { sync } from "immerhin";
 
 // Create containers for each state. Sync engine only cares that the result has a "value" and a "dispatch(newValue)"
 const container1 = createContainer(initialValue);
@@ -23,15 +27,15 @@ const container2 = createContainer(initialValue);
 
 // - Explicitely enable containers for transactions
 // - Define a namespace for each container, so that server knows which object it has to patch.
-register("some-name1", container1);
-register("some-name2", container2);
+store.register("some-name1", container1);
+store.register("some-name2", container2);
 
 // Creating the actual transaction that will:
 // - generate patches
 // - update states
 // - inform all subscribers
 // - register a transaction for potential undo/redo and sync calls
-createTransaction(
+store.createTransaction(
   [container1, container2, ...rest],
   (value1, value2, ...rest) => {
     mutateValue(value1);
@@ -42,14 +46,14 @@ createTransaction(
 
 // Setup periodic sync with a fetch, or do this with Websocket
 setInterval(async () => {
-  const entries = sync();
+  const entries = store.sync();
   await fetch("/patch", { method: "POST", payload: JSON.stringify(entries) });
 }, 1000);
 
 // Undo/redo
 
-undo();
-redo();
+store.undo();
+store.redo();
 ```
 
 ## How it works
@@ -89,14 +93,14 @@ We register containers for two reasons:
 Example
 
 ```js
-register("myName", myContainer);
+store.register("myName", myContainer);
 ```
 
 ### Creating a transaction
 
 A transaction is a set of changes applied to a set of states. When you apply changes to the states inside a transaction, you are essentially telling the engine which changes are associated with the same user action so that undo/redo can use that as a single step to work with.
 
-A call into `createTransaction()`does all of this:
+A call into `store.createTransaction()`does all of this:
 
 - generate patches (using Immer)
 - update states and inform all subscribers (by calling `container.dispatch(newValue)`)
@@ -105,7 +109,7 @@ A call into `createTransaction()`does all of this:
 Example
 
 ```js
-createTransaction(
+store.createTransaction(
   [container1, container2, ...rest],
   (value1, value2, ...rest) => {
     mutateValue(value1);
@@ -129,7 +133,7 @@ Example
 ```js
 // Setup periodic sync with a fetch, or do this with Websocket
 setInterval(async () => {
-  const entries = sync();
+  const entries = store.sync();
   await fetch("/patch", { method: "POST", payload: JSON.stringify(entries) });
 }, 1000);
 ```
@@ -174,4 +178,14 @@ Example entries:
     ]
   }
 ]
+```
+
+## Create a new store
+
+If you want to have multiple separate undoable states, create a separate store for each. They add to the same sync queue in the end.
+
+```js
+import { Store } from "immerhin";
+
+const store = new Store();
 ```

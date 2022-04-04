@@ -1,3 +1,4 @@
-export { register, createTransaction } from "./store";
+import { Store } from "./store";
 export { sync, type SyncItem } from "./sync-queue";
-export { undo, redo } from "./transactions-manager";
+export { Store };
+export default new Store();
