@@ -1,0 +1,18 @@
+{
+  "name": "immerhin-basic-example",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "yarn parcel index.html"
+  },
+  "dependencies": {
+    "immerhin": "^0.1.2",
+    "react": ">=16.8",
+    "react-dom": ">=16.8",
+    "react-nano-state": ">=0.4.0"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "parcel": "^2.4.1",
+    "process": "^0.11.10"
+  }
+}
