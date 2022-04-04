@@ -1,6 +1,6 @@
 {
   "name": "immerhin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Send patches to your server, update the UI state, get undo-redo for free",
   "main": "dist/immerhin.cjs.js",
   "module": "dist/immerhin.esm.js",

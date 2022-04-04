@@ -65,4 +65,12 @@ export class Store {
     this.transactionManager.add(transaction);
     return values;
   }
+
+  undo() {
+    this.transactionManager.undo();
+  }
+
+  redo() {
+    this.transactionManager.redo();
+  }
 }
