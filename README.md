@@ -4,6 +4,8 @@ The core idea is to use [patches](https://immerjs.github.io/immer/patches) to ke
 
 It uses [Immer](https://immerjs.github.io/immer/) as an interface for state mutations and provides a convenient way to group mutations into a single transaction, and enables undo/redo out of the box.
 
+[Play with it on Codesandbox](https://codesandbox.io/s/github/webstudio-is/immerhin/tree/main/examples/react)
+
 ## Features
 
 1. Sync application state using [patches](https://immerjs.github.io/immer/patches)
