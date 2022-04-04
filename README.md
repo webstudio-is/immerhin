@@ -46,7 +46,7 @@ store.createTransaction(
 
 // Setup periodic sync with a fetch, or do this with Websocket
 setInterval(async () => {
-  const entries = store.sync();
+  const entries = sync();
   await fetch("/patch", { method: "POST", payload: JSON.stringify(entries) });
 }, 1000);
 
@@ -133,7 +133,7 @@ Example
 ```js
 // Setup periodic sync with a fetch, or do this with Websocket
 setInterval(async () => {
-  const entries = store.sync();
+  const entries = sync();
   await fetch("/patch", { method: "POST", payload: JSON.stringify(entries) });
 }, 1000);
 ```
