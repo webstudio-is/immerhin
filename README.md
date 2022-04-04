@@ -1,20 +1,21 @@
 # Immerhin
 
-The core idea is to use [Immer](https://immerjs.github.io/immer/) as an interface for state mutations and provide a convenient way to group mutations into a single transaction.
+The core idea is to use [patches](https://immerjs.github.io/immer/patches) to keep the UI in sync between client and server, multiple clients, or multiple windows.
 
-Using Immer's patches we sync the state across the application and to the server. This also gives us a way to undo/redo a transaction automatically.
+It uses [Immer](https://immerjs.github.io/immer/) as an interface for state mutations and provides a convenient way to group mutations into a single transaction, and enables undo/redo out of the box.
 
 ## Features
 
-1. Update application state using [patches](https://immerjs.github.io/immer/patches)
-2. Synchronize to the server
-3. Get undo/redo on the client that does both updating the client state and syncing to the server
-4. Server agnostic
-5. State management agnostic (mostly)
-6. Sync between iframes (not implemented yet)
-7. Sync between tabs (not implemented yet)
-8. Conflict resolution (not implemented yet)
-9. Server handler (not implemented yet)
+1. Sync application state using [patches](https://immerjs.github.io/immer/patches)
+1. Get undo/redo for free
+1. Sync to the server
+1. Server agnostic
+1. State management libraries agnostic (a container interface)
+1. Small bundle size
+1. Sync between iframes (not implemented yet)
+1. Sync between tabs (not implemented yet)
+1. Resolve conflicts (not implemented yet)
+1. Provide server handler (not implemented yet)
 
 ## Example
 
@@ -27,8 +28,8 @@ const container2 = createContainer(initialValue);
 
 // - Explicitely enable containers for transactions
 // - Define a namespace for each container, so that server knows which object it has to patch.
-store.register("some-name1", container1);
-store.register("some-name2", container2);
+store.register("container1", container1);
+store.register("container2", container2);
 
 // Creating the actual transaction that will:
 // - generate patches
@@ -60,11 +61,9 @@ store.redo();
 
 ### Containers
 
-A Container contains a state value.
+A container is an interface that provides a `.value` and implements a `.dispatch(value)` method so that a value can be updated and propagated to all consumers.
 
-A container is an interface that implements a `dispatch(value)` method so that a value can be propagated to all consumers.
-A container exposes its current value as `container.value`.
-You can use anything to create containers, it could be a Redux store, could be an observable or a minimalistic [nano state](https://github.com/kof/react-nano-state)
+You can use anything to create containers, it could be a Redux store, could be an observable or a [nano state](https://github.com/kof/react-nano-state)
 
 You can use the same container instance to subscribe to the changes across the entire application.
 
