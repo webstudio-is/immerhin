@@ -1,4 +1,6 @@
-# Immerhin
+<section align="center">
+  <img src="https://user-images.githubusercontent.com/52824/161781684-27b7a682-f066-4da8-ab8a-df6f6e5d1511.svg" />
+</section>
 
 The core idea is to use [patches](https://immerjs.github.io/immer/patches) to keep the UI in sync between client and server, multiple clients, or multiple windows.
 
