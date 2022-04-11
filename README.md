@@ -8,6 +8,8 @@ It uses [Immer](https://immerjs.github.io/immer/) as an interface for state muta
 
 [Play with it on Codesandbox](https://codesandbox.io/s/github/webstudio-is/immerhin/tree/main/examples/react)
 
+[Read the article](https://dev.to/oleg008/synchronized-immutable-state-with-time-travel-2c6o)
+
 ## Features
 
 1. Sync application state using [patches](https://immerjs.github.io/immer/patches)
