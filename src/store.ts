@@ -1,7 +1,11 @@
 import { createDraft, finishDraft, enablePatches, type Patch } from "immer";
 import { type ValueContainer } from "./types";
 import { Transaction } from "./transaction";
-import { TransactionsManager } from "./transactions-manager";
+import {
+  type TransactionCallback,
+  TransactionsManager,
+} from "./transactions-manager";
+import { enqueue } from "./sync-queue";
 
 enablePatches();
 
@@ -21,9 +25,18 @@ export class Store {
 
   transactionManager: TransactionsManager;
 
+  callbacks: TransactionCallback[] = [];
+
   constructor() {
     this.registry = new Map();
-    this.transactionManager = new TransactionsManager();
+    this.transactionManager = new TransactionsManager(
+      (transactionId, changes) => {
+        enqueue(transactionId, changes);
+        for (const callback of this.callbacks) {
+          callback(transactionId, changes);
+        }
+      }
+    );
   }
 
   register<Value>(namespace: string, container: ValueContainer<Value>) {
@@ -64,6 +77,10 @@ export class Store {
     });
     this.transactionManager.add(transaction);
     return values;
+  }
+
+  subscribe(callback: TransactionCallback) {
+    this.callbacks.push(callback);
   }
 
   undo() {
