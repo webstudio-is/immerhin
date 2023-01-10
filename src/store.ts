@@ -25,7 +25,7 @@ export class Store {
 
   transactionManager: TransactionsManager;
 
-  callbacks: TransactionCallback[] = [];
+  private callbacks: TransactionCallback[] = [];
 
   constructor() {
     this.registry = new Map();
@@ -81,6 +81,9 @@ export class Store {
 
   subscribe(callback: TransactionCallback) {
     this.callbacks.push(callback);
+    return () => {
+      this.callbacks = this.callbacks.filter((item) => callback !== item);
+    };
   }
 
   undo() {
