@@ -1,16 +1,22 @@
-import { enqueue } from "./sync-queue";
-import { type Transaction } from "./transaction";
+import type { Change, Transaction } from "./transaction";
+
+export type TransactionCallback = (
+  transactionId: string,
+  changes: Array<Change>
+) => void;
 
 export class TransactionsManager {
   max = 100;
   currentStack: Array<Transaction> = [];
   undoneStack: Array<Transaction> = [];
 
+  constructor(private callback: TransactionCallback) {}
+
   undo() {
     const transaction = this.currentStack.pop();
     if (transaction === undefined) return;
     transaction.applyRevisePatches();
-    enqueue(transaction.id, transaction.getReviseChanges());
+    this.callback(transaction.id, transaction.getReviseChanges());
     this.undoneStack.push(transaction);
   }
 
@@ -19,13 +25,13 @@ export class TransactionsManager {
     if (transaction === undefined) return;
     transaction.applyPatches();
     this.currentStack.push(transaction);
-    enqueue(transaction.id, transaction.getChanges());
+    this.callback(transaction.id, transaction.getChanges());
   }
 
   add(transaction: Transaction) {
     transaction.applyPatches();
     this.currentStack.push(transaction);
-    enqueue(transaction.id, transaction.getChanges());
+    this.callback(transaction.id, transaction.getChanges());
     if (this.currentStack.length > this.max) {
       this.currentStack.shift();
     }
