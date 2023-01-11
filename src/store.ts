@@ -21,15 +21,14 @@ type UnwrapContainers<Containers extends Array<ValueContainer<unknown>>> = {
 };
 
 export class Store {
-  namespaces: Map<ValueContainer<Any>, string>;
-  containers: Map<string, ValueContainer<Any>>;
+  namespaces = new Map<ValueContainer<Any>, string>();
+  containers = new Map<string, ValueContainer<Any>>();
 
   transactionManager: TransactionsManager;
 
   private callbacks: TransactionCallback[] = [];
 
   constructor() {
-    this.namespaces = new Map();
     this.transactionManager = new TransactionsManager(
       (transactionId, changes, source) => {
         enqueue(transactionId, changes);
