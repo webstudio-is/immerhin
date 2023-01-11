@@ -21,7 +21,7 @@ type UnwrapContainers<Containers extends Array<ValueContainer<unknown>>> = {
 };
 
 export class Store {
-  registry: Map<ValueContainer<Any>, string>;
+  namespaces: Map<ValueContainer<Any>, string>;
   containers: Map<string, ValueContainer<Any>>;
 
   transactionManager: TransactionsManager;
@@ -29,7 +29,7 @@ export class Store {
   private callbacks: TransactionCallback[] = [];
 
   constructor() {
-    this.registry = new Map();
+    this.namespaces = new Map();
     this.transactionManager = new TransactionsManager(
       (transactionId, changes, source) => {
         enqueue(transactionId, changes);
@@ -41,7 +41,7 @@ export class Store {
   }
 
   register<Value>(namespace: string, container: ValueContainer<Value>) {
-    this.registry.set(container, namespace);
+    this.namespaces.set(container, namespace);
     this.containers.set(namespace, container);
   }
 
@@ -59,7 +59,7 @@ export class Store {
     const transaction = new Transaction();
     const values = [] as unknown as Values;
     drafts.forEach((draft, index) => {
-      const namespace = this.registry.get(containers[index]);
+      const namespace = this.namespaces.get(containers[index]);
       if (namespace === undefined) {
         throw new Error(
           "Container used for transaction is not registered in sync engine"
