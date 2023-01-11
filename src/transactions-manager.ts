@@ -2,7 +2,8 @@ import type { Change, Transaction } from "./transaction";
 
 export type TransactionCallback = (
   transactionId: string,
-  changes: Array<Change>
+  changes: Array<Change>,
+  source?: string
 ) => void;
 
 export class TransactionsManager {
@@ -28,10 +29,10 @@ export class TransactionsManager {
     this.callback(transaction.id, transaction.getChanges());
   }
 
-  add(transaction: Transaction) {
+  add(transaction: Transaction, source?: string) {
     transaction.applyPatches();
     this.currentStack.push(transaction);
-    this.callback(transaction.id, transaction.getChanges());
+    this.callback(transaction.id, transaction.getChanges(), source);
     if (this.currentStack.length > this.max) {
       this.currentStack.shift();
     }

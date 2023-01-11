@@ -1,6 +1,6 @@
 import { createDraft, finishDraft, enablePatches, type Patch } from "immer";
 import { type ValueContainer } from "./types";
-import { Transaction } from "./transaction";
+import { type Change, Transaction } from "./transaction";
 import {
   type TransactionCallback,
   TransactionsManager,
@@ -22,6 +22,7 @@ type UnwrapContainers<Containers extends Array<ValueContainer<unknown>>> = {
 
 export class Store {
   registry: Map<ValueContainer<Any>, string>;
+  containers: Map<string, ValueContainer<Any>>;
 
   transactionManager: TransactionsManager;
 
@@ -30,10 +31,10 @@ export class Store {
   constructor() {
     this.registry = new Map();
     this.transactionManager = new TransactionsManager(
-      (transactionId, changes) => {
+      (transactionId, changes, source) => {
         enqueue(transactionId, changes);
         for (const callback of this.callbacks) {
-          callback(transactionId, changes);
+          callback(transactionId, changes, source);
         }
       }
     );
@@ -41,11 +42,13 @@ export class Store {
 
   register<Value>(namespace: string, container: ValueContainer<Value>) {
     this.registry.set(container, namespace);
+    this.containers.set(namespace, container);
   }
 
   createTransaction<Containers extends Array<ValueContainer<Any>>>(
     containers: [...Containers],
-    recipe: (...values: UnwrapContainers<Containers>) => void
+    recipe: (...values: UnwrapContainers<Containers>) => void,
+    source?: string
   ): UnwrapContainers<Containers> {
     type Values = UnwrapContainers<Containers>;
     const drafts = [] as unknown as Values;
@@ -75,8 +78,22 @@ export class Store {
       );
       values.push(value);
     });
-    this.transactionManager.add(transaction);
+    this.transactionManager.add(transaction, source);
     return values;
+  }
+
+  createTransactionFromChanges(changes: Array<Change>, source?: string) {
+    const transaction = new Transaction();
+    for (const change of changes) {
+      const container = this.containers.get(change.namespace);
+      if (container) {
+        transaction.add({
+          ...change,
+          container,
+        });
+      }
+    }
+    this.transactionManager.add(transaction, source);
   }
 
   subscribe(callback: TransactionCallback) {
