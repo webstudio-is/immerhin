@@ -5,6 +5,7 @@ import { type ValueContainer } from "./types";
 export type Change = {
   namespace: string;
   patches: Array<Patch>;
+  revisePatches: Array<Patch>;
 };
 
 type TransactionSpec = {
@@ -36,15 +37,17 @@ export class Transaction {
     this.specs.push(change);
   }
   getChanges(): Array<Change> {
-    return this.specs.map(({ namespace, patches }) => ({
+    return this.specs.map(({ namespace, patches, revisePatches }) => ({
       namespace,
       patches,
+      revisePatches,
     }));
   }
   getReviseChanges(): Array<Change> {
-    return this.specs.map(({ namespace, revisePatches }) => ({
+    return this.specs.map(({ namespace, patches, revisePatches }) => ({
       namespace,
       patches: revisePatches,
+      revisePatches: patches,
     }));
   }
 }
