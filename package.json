@@ -1,7 +1,7 @@
 {
   "packageManager": "yarn@1.22.19",
   "name": "immerhin",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Send patches around to keep the system in sync.",
   "main": "dist/immerhin.cjs.js",
   "module": "dist/immerhin.esm.js",
