@@ -23,6 +23,13 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@nanostores/react@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@nanostores/react/-/react-0.4.1.tgz#209c6726c0b42a1d21d9f7aa8f5276cdb0ad40d8"
+  integrity sha512-lsv0CYrMxczbXtoV/mxFVEoL/uVjEjseoP89srO/5yNAOkJka+dSFS7LYyWEbuvCPO7EgbtkvRpO5V+OztKQOw==
+  dependencies:
+    use-sync-external-store "^1.2.0"
+
 "@parcel/bundler-default@2.4.1":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@parcel/bundler-default/-/bundler-default-2.4.1.tgz#a158fe63d99e38865db8353132bd1b2ff62ab47a"
@@ -943,13 +950,9 @@ immer@^9.0.12:
   resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.12.tgz#2d33ddf3ee1d247deab9d707ca472c8c942a0f20"
   integrity sha512-lk7UNmSbAukB5B6dh9fnh5D0bJTOFKxVg2cyJWTYrWRfhLrLMBquONcUs3aFq507hNoIZEDDh8lb8UtOizSMhA==
 
-immerhin@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/immerhin/-/immerhin-0.1.2.tgz#a9e1f4ace00f7a20637bf18e718f0f34cd310514"
-  integrity sha512-4UfFIeq9sAgR5WR8xebUhrxBHn7yfNua2mflqxSYMkTwg/mjgr5HP22RdgNrWWZ2yZ8hGl2ipPKS8B+xQPA1Cw==
-  dependencies:
-    bson-objectid "^2.0.3"
-    immer "^9.0.12"
+"immerhin@link:../..":
+  version "0.0.0"
+  uid ""
 
 import-fresh@^3.2.1:
   version "3.3.0"
@@ -1036,6 +1039,11 @@ nan@^2.14.2:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
+
+nanostores@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/nanostores/-/nanostores-0.7.1.tgz#ed27fa3f9b1c2ab9b28f14373811e28b9d3fc5eb"
+  integrity sha512-7HenoVpZOjRudHCmAVWKloBTk3+Ozw49KuRWq/pNlEIIVS3x9dID+I5z3Rhjxl1muhHwv4dFhpT+0FebT9jvaA==
 
 node-addon-api@^3.2.1:
   version "3.2.1"
@@ -1163,11 +1171,6 @@ react-dom@>=16.8:
     loose-envify "^1.1.0"
     scheduler "^0.21.0"
 
-react-nano-state@>=0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-nano-state/-/react-nano-state-0.4.0.tgz#775fd0e03ff457fcb58a35ba159bd419d76632bc"
-  integrity sha512-SqSNd9Y5scLhaMpD0tqMcCl3nijFlPFJzOmOFc4ITuhjjbsyKHcdjv02tamI88fCt8bAcjWA/It0k/+QP61w9w==
-
 react-refresh@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.9.0.tgz#71863337adc3e5c2f8a6bfddd12ae3bfe32aafbf"
@@ -1281,6 +1284,11 @@ type-fest@^0.20.2:
   version "0.20.2"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.20.2.tgz#1bf207f4b28f91583666cb5fbd327887301cd5f4"
   integrity sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==
+
+use-sync-external-store@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 utility-types@^3.10.0:
   version "3.10.0"

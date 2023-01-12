@@ -52,7 +52,7 @@ export class Store {
     type Values = UnwrapContainers<Containers>;
     const drafts = [] as unknown as Values;
     for (const container of containers) {
-      drafts.push(createDraft(container.value));
+      drafts.push(createDraft(container.get()));
     }
     recipe(...drafts);
     const transaction = new Transaction();

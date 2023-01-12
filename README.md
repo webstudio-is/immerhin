@@ -28,9 +28,9 @@ It uses [Immer](https://immerjs.github.io/immer/) as an interface for state muta
 ```js
 import store, { sync } from "immerhin";
 
-// Create containers for each state. Sync engine only cares that the result has a "value" and a "dispatch(newValue)"
-const container1 = createContainer(initialValue);
-const container2 = createContainer(initialValue);
+// Create containers for each state. Sync engine only cares that the result has a "get()" and a "set(newValue)"
+const container1 = atom(initialValue);
+const container2 = atom(initialValue);
 
 // - Explicitely enable containers for transactions
 // - Define a namespace for each container, so that server knows which object it has to patch.
@@ -67,24 +67,25 @@ store.redo();
 
 ### Containers
 
-A container is an interface that provides a `.value` and implements a `.dispatch(value)` method so that a value can be updated and propagated to all consumers.
+A container is an interface that implements `.get()` and `.set(value)` methods so that a value can be updated and propagated to all consumers.
 
-You can use anything to create containers, it could be a Redux store, could be an observable or a [nano state](https://github.com/kof/react-nano-state)
+You can use anything to create containers, it could be a Redux store, could be an observable, a [nano state](https://github.com/kof/react-nano-state) or [nanostores](https://github.com/nanostores/nanostores).
 
 You can use the same container instance to subscribe to the changes across the entire application.
 
 Example using nano state:
 
 ```js
-import { createContainer, useValue } from "react-nano-state";
-const myContainer = createContainer(initialValue);
+import { atom } from "nanostores";
+import { useStore } from "@nanostores/react";
+const myContainer = atom(initialValue);
 
-// I can call a dispatch from anywhere
-myContainer.dispatch(newValue);
+// I can call a set from anywhere
+myContainer.set(newValue);
 
 // I can subscribe to updates in React
 const Component = () => {
-  const [value, setValue] = useValue(myContainer);
+  const value = useStore(myContainer);
 };
 ```
 
@@ -108,7 +109,7 @@ A transaction is a set of changes applied to a set of states. When you apply cha
 A call into `store.createTransaction()`does all of this:
 
 - generate patches (using Immer)
-- update states and inform all subscribers (by calling `container.dispatch(newValue)`)
+- update states and inform all subscribers (by calling `container.set(newValue)`)
 - register a transaction for potential undo/redo and calls
 
 Example

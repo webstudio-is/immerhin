@@ -23,14 +23,14 @@ export class Transaction {
   }
   applyPatches() {
     for (const change of this.specs) {
-      const value = applyPatches(change.container.value, change.patches);
-      change.container.dispatch(value);
+      const value = applyPatches(change.container.get(), change.patches);
+      change.container.set(value);
     }
   }
   applyRevisePatches() {
     for (const change of this.specs) {
-      const value = applyPatches(change.container.value, change.revisePatches);
-      change.container.dispatch(value);
+      const value = applyPatches(change.container.get(), change.revisePatches);
+      change.container.set(value);
     }
   }
   add(change: TransactionSpec) {
