@@ -5,12 +5,16 @@
     "start": "yarn parcel index.html"
   },
   "dependencies": {
-    "immerhin": "^0.1.2",
+    "@nanostores/react": "^0.4.1",
+    "immerhin": "link:../../",
+    "nanostores": "^0.7.1",
     "react": ">=16.8",
-    "react-dom": ">=16.8",
-    "react-nano-state": ">=0.4.0"
+    "react-dom": ">=16.8"
   },
   "main": "index.js",
+  "alias": {
+    "process": false
+  },
   "devDependencies": {
     "parcel": "^2.4.1",
     "process": "^0.11.10"

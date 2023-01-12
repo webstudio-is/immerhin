@@ -1,14 +1,15 @@
 import React, { Fragment } from "react";
 import { createRoot } from "react-dom/client";
-import { createValueContainer, useValue } from "react-nano-state";
+import { atom } from 'nanostores';
+import { useStore } from '@nanostores/react'
 import store, { sync } from "immerhin";
 
-const itemsContainer = createValueContainer([]);
+const itemsContainer = atom([]);
 
 store.register("items", itemsContainer);
 
 const List = () => {
-  const [items] = useValue(itemsContainer);
+  const items = useStore(itemsContainer);
   return (
     <ul>
       {items.map((item, index) => (
