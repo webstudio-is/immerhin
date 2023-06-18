@@ -16,8 +16,8 @@ type UnwrapContainers<Containers extends Array<ValueContainer<unknown>>> = {
   [Index in keyof Containers]: Containers[Index] extends ValueContainer<
     infer Value
   >
-    ? Value
-    : never;
+  ? Value
+  : never;
 };
 
 export class Store {
@@ -67,6 +67,10 @@ export class Store {
       const value = finishDraft(
         draft,
         (patches: Array<Patch>, revisePatches: Array<Patch>) => {
+          // ignore empty changes
+          if (patches.length === 0) {
+            return;
+          }
           transaction.add({
             namespace,
             patches,

@@ -30,6 +30,10 @@ export class TransactionsManager {
   }
 
   add(transaction: Transaction, source?: string) {
+    // ignore empty transactions
+    if (transaction.specs.length === 0) {
+      return;
+    }
     transaction.applyPatches();
     this.currentStack.push(transaction);
     this.callback(transaction.id, transaction.getChanges(), source);
