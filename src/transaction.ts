@@ -1,4 +1,4 @@
-import ObjectId from "bson-objectid";
+import { nanoid } from "nanoid";
 import { applyPatches, type Patch } from "immer";
 import { type ValueContainer } from "./types";
 
@@ -19,7 +19,7 @@ export class Transaction {
   id: string;
   specs: Array<TransactionSpec> = [];
   constructor() {
-    this.id = ObjectId().toString();
+    this.id = nanoid();
   }
   applyPatches() {
     for (const change of this.specs) {
