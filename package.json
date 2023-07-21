@@ -5,8 +5,8 @@
   "description": "Send patches around to keep the system in sync.",
   "type": "module",
   "exports": {
-    "import": "dist/immerhin.js",
-    "types": "dist/index.d.ts"
+    "import": "./dist/immerhin.js",
+    "types": "./dist/index.d.ts"
   },
   "scripts": {
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
