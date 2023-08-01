@@ -1,7 +1,7 @@
 {
   "packageManager": "yarn@1.22.19",
   "name": "immerhin",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Send patches around to keep the system in sync.",
   "type": "module",
   "exports": {
