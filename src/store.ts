@@ -5,7 +5,7 @@ import {
   type TransactionCallback,
   TransactionsManager,
 } from "./transactions-manager";
-import { enqueue } from "./sync-queue";
+import { type Queue, enqueue, popAll } from "./sync-queue";
 
 enablePatches();
 
@@ -28,10 +28,12 @@ export class Store {
 
   private callbacks: TransactionCallback[] = [];
 
+  private queue: Queue = []
+
   constructor() {
     this.transactionManager = new TransactionsManager(
       (transactionId, changes, source) => {
-        enqueue(transactionId, changes);
+        enqueue(this.queue, transactionId, changes);
         for (const callback of this.callbacks) {
           callback(transactionId, changes, source);
         }
@@ -112,5 +114,9 @@ export class Store {
 
   redo() {
     this.transactionManager.redo();
+  }
+
+  popAll() {
+    popAll(this.queue)
   }
 }
