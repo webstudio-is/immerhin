@@ -117,6 +117,6 @@ export class Store {
   }
 
   popAll() {
-    popAll(this.queue)
+    return popAll(this.queue)
   }
 }
