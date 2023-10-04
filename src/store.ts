@@ -42,8 +42,19 @@ export class Store {
   }
 
   register<Value>(namespace: string, container: ValueContainer<Value>) {
+    if (this.namespaces.has(container) {
+        console.warn(`The store "${container}" was already registered under a different namespace "${this.namespaces.get(container)}". The existing namespace for this store has been overwritten by the new namespace.`);
+    }
+    if (this.containers.has(namespace)) {
+        console.warn(`The namespace "${namespace}" was already used to register a different store: "${this.containers.get(namespace)}". The existing store with this namespace has been overwritten by the new store.`);
+    }
+    if (typeof namespace !== 'string' || namespace.trim() === '') {
+        throw new Error(
+          "Invalid namespace provided. It must be a non-empty string."
+        );
+    }
     this.namespaces.set(container, namespace);
-    this.containers.set(namespace, container);
+    this.containers.set(namespace.trim(), container);
   }
 
   createTransaction<Containers extends Array<ValueContainer<Any>>>(
