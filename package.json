@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "immer": "^10.0.2",
-    "nanoid": "^4.0.2"
+    "nanoid": "^5.0.1"
   },
   "files": [
     "dist",
