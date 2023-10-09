@@ -28,12 +28,17 @@ export class Store {
 
   private callbacks: TransactionCallback[] = [];
 
-  private queue: Queue = []
+  private transactionQueue: Parameters<TransactionCallback>[] = []
+  private syncQueue: Queue = []
 
   constructor() {
     this.transactionManager = new TransactionsManager(
       (transactionId, changes, source) => {
-        enqueue(this.queue, transactionId, changes);
+        // store transactions until at least one subscription is added
+        if (this.callbacks.length === 0) {
+          this.transactionQueue.push([transactionId, changes, source])
+        }
+        enqueue(this.syncQueue, transactionId, changes);
         for (const callback of this.callbacks) {
           callback(transactionId, changes, source);
         }
@@ -102,6 +107,13 @@ export class Store {
   }
 
   subscribe(callback: TransactionCallback) {
+    // flush transactions from queue
+    if (this.callbacks.length === 0) {
+      for (const [transactionId, changes, source] of this.transactionQueue) {
+        callback(transactionId, changes, source);
+      }
+      this.transactionQueue = [];
+    }
     this.callbacks.push(callback);
     return () => {
       this.callbacks = this.callbacks.filter((item) => callback !== item);
@@ -117,6 +129,6 @@ export class Store {
   }
 
   popAll() {
-    return popAll(this.queue)
+    return popAll(this.syncQueue)
   }
 }
