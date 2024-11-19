@@ -18,8 +18,8 @@ type TransactionSpec = {
 export class Transaction {
   id: string;
   specs: Array<TransactionSpec> = [];
-  constructor() {
-    this.id = nanoid();
+  constructor(id = nanoid()) {
+    this.id = id;
   }
   applyPatches() {
     for (const change of this.specs) {
