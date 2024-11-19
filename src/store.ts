@@ -16,8 +16,8 @@ type UnwrapContainers<Containers extends Array<ValueContainer<unknown>>> = {
   [Index in keyof Containers]: Containers[Index] extends ValueContainer<
     infer Value
   >
-  ? Value
-  : never;
+    ? Value
+    : never;
 };
 
 export class Store {
@@ -28,21 +28,21 @@ export class Store {
 
   private callbacks: TransactionCallback[] = [];
 
-  private transactionQueue: Parameters<TransactionCallback>[] = []
-  private syncQueue: Queue = []
+  private transactionQueue: Parameters<TransactionCallback>[] = [];
+  private syncQueue: Queue = [];
 
   constructor() {
     this.transactionManager = new TransactionsManager(
       (transactionId, changes, source) => {
         // store transactions until at least one subscription is added
         if (this.callbacks.length === 0) {
-          this.transactionQueue.push([transactionId, changes, source])
+          this.transactionQueue.push([transactionId, changes, source]);
         }
         enqueue(this.syncQueue, transactionId, changes);
         for (const callback of this.callbacks) {
           callback(transactionId, changes, source);
         }
-      }
+      },
     );
   }
 
@@ -54,7 +54,7 @@ export class Store {
   createTransaction<Containers extends Array<ValueContainer<Any>>>(
     containers: [...Containers],
     recipe: (...values: UnwrapContainers<Containers>) => void,
-    source?: string
+    source?: string,
   ): UnwrapContainers<Containers> {
     type Values = UnwrapContainers<Containers>;
     const drafts = [] as unknown as Values;
@@ -68,7 +68,7 @@ export class Store {
       const namespace = this.namespaces.get(containers[index]);
       if (namespace === undefined) {
         throw new Error(
-          "Container used for transaction is not registered in sync engine"
+          "Container used for transaction is not registered in sync engine",
         );
       }
       const value = finishDraft(
@@ -84,7 +84,7 @@ export class Store {
             revisePatches,
             container: containers[index],
           });
-        }
+        },
       );
       values.push(value);
     });
@@ -104,6 +104,28 @@ export class Store {
       }
     }
     this.transactionManager.add(transaction, source);
+  }
+
+  addTransaction(
+    transactionId: string,
+    changes: Array<Change>,
+    source?: string,
+  ) {
+    const transaction = new Transaction(transactionId);
+    for (const change of changes) {
+      const container = this.containers.get(change.namespace);
+      if (container) {
+        transaction.add({
+          ...change,
+          container,
+        });
+      }
+    }
+    this.transactionManager.add(transaction, source);
+  }
+
+  revertTransaction(transactionId: string) {
+    this.transactionManager.revert(transactionId);
   }
 
   subscribe(callback: TransactionCallback) {
@@ -129,6 +151,6 @@ export class Store {
   }
 
   popAll() {
-    return popAll(this.syncQueue)
+    return popAll(this.syncQueue);
   }
 }

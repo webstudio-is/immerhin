@@ -3,7 +3,7 @@ import type { Change, Transaction } from "./transaction";
 export type TransactionCallback = (
   transactionId: string,
   changes: Array<Change>,
-  source?: string
+  source?: string,
 ) => void;
 
 export class TransactionsManager {
@@ -11,7 +11,7 @@ export class TransactionsManager {
   currentStack: Array<Transaction> = [];
   undoneStack: Array<Transaction> = [];
 
-  constructor(private callback: TransactionCallback) {}
+  constructor(private callback: TransactionCallback) { }
 
   undo() {
     const transaction = this.currentStack.pop();
@@ -43,5 +43,14 @@ export class TransactionsManager {
     // After we add a change, we can't redo something we have undone before.
     // It would make undo unpredictable, because there are new changes.
     this.undoneStack.splice(0);
+  }
+
+  revert(transactionId: string) {
+    const transactionIndex = this.currentStack.findIndex(
+      (transaction) => transaction.id === transactionId,
+    );
+    const transaction = this.currentStack[transactionIndex];
+    transaction.applyRevisePatches();
+    this.currentStack.splice(transactionIndex, 1);
   }
 }
